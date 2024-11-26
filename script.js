@@ -1,5 +1,15 @@
-let progressChecking = false;
 
+/* JOB MATCHING */
+
+const getuid = document.getElementById("userId");
+const uid = parseInt(getuid.value, 10);
+
+let progressChecking = [];
+
+progressChecking[1] = false;
+progressChecking[5] = false;
+
+/* Get progress on Match */
 async function fetchProgress(userId) {
 	try {
 		const response = await fetch(`http://localhost:18080/progress/${userId}`);
@@ -16,15 +26,17 @@ async function fetchProgress(userId) {
 	}
 }
 
+/* Update the visual progress bar */
 function updateProgressBar(progress) {
 	const progressBar = document.getElementById("progress-bar");
 	progressBar.style.width = `${progress}%`;
 	progressBar.textContent = `${progress}%`;
 }
 
+/* Start checking progress once job added to queue */
 function startProgressCheck(userId) {
-	if (progressChecking) return;
-	progressChecking = true;
+	if (progressChecking[userId]) return;
+	progressChecking[userId] = true;
 	const interval = setInterval(async () => {
 		const progress = await fetchProgress(userId);
 		if (!progress) return;
@@ -49,6 +61,7 @@ function startProgressCheck(userId) {
 	}, 500); 
 }
 
+/* Main function that gets and prints the job results */
 async function fetchJobMatches(userId) {
 
 	const resultDiv = document.getElementById('response');
@@ -241,11 +254,9 @@ async function fetchJobMatches(userId) {
 		});
 
 	} catch (error) {
-		console.error('Error fetching job matches:', error);
-
-		resultDiv.textContent = 'Error fetching job matches. Please try again later.';
+		console.error('Job added to queue.', error);
 	}
 }
 
-// Fetch job matches for user ID 1
-fetchJobMatches(1);
+// Fetch job matches for user ID in parentheses.
+fetchJobMatches(uid);
