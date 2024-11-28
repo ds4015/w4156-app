@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = 'index.html';
         } else {
             // Token is valid, set the userId and start fetching matches
-            const uid = userData.user_id; // Adjust based on your JWT payload
+            const uid = userData.user_id; 
             document.getElementById("userId").value = uid;
             fetchJobMatches(uid);
         }
