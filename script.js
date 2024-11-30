@@ -12,7 +12,7 @@ progressChecking[uid] = false;
 /* Get progress on Match */
 async function fetchProgress(userId) {
 	try {
-		const response = await fetch(`http://localhost/api/progress/${userId}`);
+		const response = await fetch(`http://34.69.114.32/api/progress/${userId}`);
 		if (!response.ok) {
 			console.error("Failed to fetch progress:", response.statusText);
 			return null;
@@ -69,7 +69,7 @@ async function fetchJobMatches(userId) {
 	try {
 
 		// Fetch job matches
-		const response = await fetch(`http://localhost/api/getMatches?uid=${userId}`);
+		const response = await fetch(`http://34.69.114.32/api/getMatches?uid=${userId}`);
 		if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 		const data = await response.json();
 		console.log(data.results);
