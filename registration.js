@@ -3,11 +3,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     const registrationForm = document.getElementById('registration-form');
     const registrationMessage = document.getElementById('registration-message');
+    const payMessage = document.getElementById('pay-message');
 
     registrationForm.addEventListener('submit', async (event) => {
         event.preventDefault(); // Prevent default form submission
 
         // Collect mandatory fields
+        const real_name = document.getElementById('real-name').value.trim();
         const name = document.getElementById('reg-name').value.trim();
         const email = document.getElementById('reg-email').value.trim();
         const field = document.getElementById('dimension-field').value.trim();
@@ -20,13 +22,35 @@ document.addEventListener('DOMContentLoaded', () => {
         const remote = document.getElementById('dimension-remote').value;
         const workspace = document.getElementById('dimension-workspace').value;
 
+        // skills
+        const skill1 = document.getElementById('skill-skill1').value;
+        const skill2 = document.getElementById('skill-skill2').value;
+        const skill3 = document.getElementById('skill-skill3').value;
+        const skill4 = document.getElementById('skill-skill4').value;
+        const skill5 = document.getElementById('skill-skill5').value;        
+
+        // interests
+        const interest1 = document.getElementById('interest-interest1').value;
+        const interest2 = document.getElementById('interest-interest2').value;
+        const interest3 = document.getElementById('interest-interest3').value;
+        const interest4 = document.getElementById('interest-interest4').value;
+        const interest5 = document.getElementById('interest-interest5').value;
+
+        const skills = [skill1, skill2, skill3, skill4, skill5].filter(skill => skill.trim() !== '');
+        const interests = [interest1, interest2, interest3, interest4, interest5].filter(interest => interest.trim() !== '');
+        const skillsList = skills.map(skill => ({ name: skill }));
+        const interestsList = interests.map(interest => ({ name: interest }));
+
+        console.log(skillsList);
+        console.log(interestsList);
+
         // Collect optional skills
-        const skillsSelect = document.getElementById('skills');
-        const selectedSkills = Array.from(skillsSelect.selectedOptions).map(option => option.value);
+//        const skillsSelect = document.getElementById('skills');
+  //      const selectedSkills = Array.from(skillsSelect.selectedOptions).map(option => option.value);
 
         // Collect optional interests
-        const interestsSelect = document.getElementById('interests');
-        const selectedInterests = Array.from(interestsSelect.selectedOptions).map(option => option.value);
+    //    const interestsSelect = document.getElementById('interests');
+      //  const selectedInterests = Array.from(interestsSelect.selectedOptions).map(option => option.value);
 
         // Collect augments (importance levels)
         const augments = [];
@@ -55,7 +79,9 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
 
         augmentFields.forEach(field => {
+            console.log(field.name);
             const importanceValue = document.getElementById(`importance-${field.name}`).value;
+            console.log(importanceValue);
             if (importanceValue) { // Only include if an importance level is selected
                 augments.push({
                     dim_id: field.dim_id,
@@ -64,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+
         // Validate mandatory fields
         if (!name || !email || !field || !pay || !mbti || !location || !gender || !diversity || !flexibility || !remote || !workspace) {
             registrationMessage.textContent = 'Please fill in all required fields.';
@@ -71,25 +98,37 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        if (pay < 0 || isNaN(pay)) {
+            payMessage.textContent = 'Please enter a positive value for pay.'
+            payMessage.style.color = 'red';
+            return;
+        }
+
         // Construct the JSON payload
         const userData = {
+            real_name: real_name,
             name: name,
             email: email,
             dimensions: {
                 field: field,
                 pay: pay,
                 mbti: mbti,
-                location: location,
-                gender: gender,
-                diversity: diversity,
-                flexibility: flexibility,
-                remote: remote,
-                workspace: workspace
+                loc: location,
+                gender: gender === 'true',
+                diversity: diversity === 'true',
+                flexibility: flexibility === 'true',
+                remote: remote === 'true',
+                workspace: workspace === 'true'
             },
-            skills: selectedSkills.length > 0 ? selectedSkills.map(skill => ({ name: skill })) : [],
-            interests: selectedInterests.length > 0 ? selectedInterests.map(interest => ({ name: interest })) : [],
             augments: augments.length > 0 ? augments : []
         };
+
+        if (skillsList.length > 0) {
+            userData.skills = skillsList;
+        }
+        if (interestsList.length > 0) {
+            userData.interests = interestsList;
+        }
 
         try {
             // Send a POST request to the /makeUser endpoint
@@ -118,7 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     window.location.href = 'getMatches.html';
                 } else {
-                    alert('Please log in with your credentials.');
+                    alert('Registration successful. Please log in with your credentials.');
+                    window.location.href = 'index.html';                    
                 }
             } else {
                 const errorData = await response.json();

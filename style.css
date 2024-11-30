@@ -1,6 +1,5 @@
 body {
 	background-color: #eafbf8;
-	/* Light mint color */
 	font-family: Arial, sans-serif;
 	display: flex;
     justify-content: center; 
@@ -17,6 +16,16 @@ body {
 	font-family: 'Comforter Brush', serif;
 	font-size: 8rem;
 	font-weight: normal;
+}
+
+.subtitle {
+	font-family: 'Linden Hill', serif;
+	font-size: xx-large;
+}
+
+.status-text {
+	font-family: 'Linden Hill', serif;
+	font-size: large;
 }
 
 .barcode {
@@ -288,4 +297,52 @@ label {
     font-family: 'Linden Hill', serif;
     font-size: 18px;
     color: #333; 
+}
+
+a {
+	color: #000;
+}
+
+.circle {
+    display: inline-flex;           
+    justify-content: center;
+    align-items: center;
+    width: 50px;                
+    height: 50px;               
+    background-color: #4C3549; 
+    color: white;              
+    font-size: 30px;            
+	font-family: 'Comforter Brush', serif;
+    font-weight: bold;          
+    border-radius: 50%;         
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+	flex-shrink: 0;
+}
+
+.subcircle {
+    display: inline-flex;           
+    justify-content: center;
+    align-items: center;
+    width: 30px;                
+    height: 30px;               
+    background-color: #DC758F; 
+    color: white;              
+    font-size: 20px;            
+	font-family: 'Comforter Brush', serif;
+    font-weight: bold;          
+    border-radius: 50%;         
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+	flex-shrink: 0;
+}
+
+.large-radio {
+    width: 24px; 
+    height: 24px; 
+    accent-color: #4C3549; 
+    margin-right: 8px; 
+}
+
+.form-check-inline {
+    display: flex; 
+    align-items: center; 
 }
