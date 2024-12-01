@@ -312,6 +312,11 @@ a {
 	text-decoration: none;
 }
 
+.sticky-column {
+	position: sticky;
+	top: 0; 
+  }
+
 .circle {
 	display: inline-flex;
 	justify-content: center;

@@ -1,5 +1,6 @@
 /* JOB MATCHING */
 
+const resultsContainer = document.getElementById("results-container");
 const progressBarContainer = document.getElementById("progress-container");
 const loadingText = document.getElementById("load-text");
 const loadingCircle = document.getElementById("load-circle");
@@ -60,9 +61,11 @@ function startProgressCheck(userId) {
 
 /* Main function that gets and prints the job results */
 async function fetchJobMatches(userId) {
+        resultsContainer.style.display = "none";
         uidForm.style.display = "none";
         startProgressCheck(userId);
         const resultDiv = document.getElementById('response');
+        const profileDiv = document.getElementById('profile');
         try {
                 // Fetch job matches
                 const response = await fetch(`http://34.69.114.32/api/getMatches?uid=${userId}`);
@@ -72,6 +75,128 @@ async function fetchJobMatches(userId) {
                 const jobResults = JSON.parse(data.results);
                 console.log(jobResults); // Full JSON object
 
+                const profResponse = await fetch(`http://34.69.114.32/api/getProfile?uid=${userId}`)
+                const profData = await profResponse.json();
+                console.log(profData.results);
+                const profResults = JSON.parse(profData.results);
+                console.log(profResults);
+
+                profileDiv.innerHTML = '';
+                const profHeadElement = document.createElement('h3');
+                profHeadElement.textContent = `Your Profile`;
+                profileDiv.appendChild(profHeadElement);
+
+                const profFieldElement = document.createElement('p');
+                profFieldElement.textContent = `Field of Interest: ${profResults.field}`;
+                profileDiv.appendChild(profFieldElement);
+
+
+                const profLocElement = document.createElement('p');
+                profLocElement.textContent = `Location: ${profResults.location}`;
+                profileDiv.appendChild(profLocElement);
+
+                const profPayElement = document.createElement('p');
+                profPayElement.textContent = `Pay Desired: ${profResults.pay}`;
+                profileDiv.appendChild(profPayElement);
+
+                if ("skill1" in profResults) {
+                        const profSkill1Element = document.createElement('p');
+                        profSkill1Element.textContent = `Skill: ${profResults.skill1}`;
+                        profileDiv.appendChild(profSkill1Element);
+                }
+
+                if ("skill2" in profResults) {
+                        const profSkill2Element = document.createElement('p');
+                        profSkill2Element.textContent = `Skill: ${profResults.skill2}`;
+                        profileDiv.appendChild(profSkill2Element);
+                }
+
+
+                if ("skill3" in profResults) {
+                        const profSkill3Element = document.createElement('p');
+                        profSkill3Element.textContent = `Skill: ${profResults.skill3}`;
+                        profileDiv.appendChild(profSkill3Element);
+                }
+
+
+                if ("skill4" in profResults) {
+                        const profSkill4Element = document.createElement('p');
+                        profSkill4Element.textContent = `Skill: ${profResults.skill4}`;
+                        profileDiv.appendChild(profSkill4Element);
+                }
+
+                if ("skill5" in profResults) {
+                        const profSkill5Element = document.createElement('p');
+                        profSkill5Element.textContent = `Skill: ${profResults.skill5}`;
+                        profileDiv.appendChild(profSkill5Element);
+                }
+
+
+                if ("interest1" in profResults) {
+                        const profInterest1Element = document.createElement('p');
+                        profInterest1Element.textContent = `Interest: ${profResults.interest1}`;
+                        profileDiv.appendChild(profInterest1Element);
+                }
+
+                if ("interest2" in profResults) {
+                        const profInterest2Element = document.createElement('p');
+                        profInterest2Element.textContent = `Interest: ${profResults.interest2}`;
+                        profileDiv.appendChild(profInterest2Element);
+                }
+
+
+                if ("interest3" in profResults) {
+                        const profInterest3Element = document.createElement('p');
+                        profInterest3Element.textContent = `Interest: ${profResults.interest3}`;
+                        profileDiv.appendChild(profInterest3Element);
+                }
+
+
+                if ("interest4" in profResults) {
+                        const profInterest4Element = document.createElement('p');
+                        profInterest4Element.textContent = `Interest: ${profResults.interest4}`;
+                        profileDiv.appendChild(profInterest4Element);
+                }
+
+
+                if ("interest5" in profResults) {
+                        const profInterest5Element = document.createElement('p');
+                        profInterest5Element.textContent = `Interest: ${profResults.interest5}`;
+                        profileDiv.appendChild(profInterest5Element);
+                }
+
+
+                if (profResults.flexibility === "true") {
+                        const profFlexElement = document.createElement('p');
+                        profFlexElement.textContent = "Job Flexibility: Yes";
+                        profileDiv.appendChild(profFlexElement);
+                }
+
+
+                if (profResults.remote === "true") {
+                        const profRemoteElement = document.createElement('p');
+                        profRemoteElement.textContent = "Remote Work: Yes";
+                        profileDiv.appendChild(profRemoteElement);
+                }
+
+                if (profResults.gender === "true") {
+                        const profGendElement = document.createElement('p');
+                        profGendElement.textContent = "Gender Balance: Yes";
+                        profileDiv.appendChild(profGendElement);
+                }
+
+                if (profResults.diversity === "true") {
+                        const profDivElement = document.createElement('p');
+                        profDivElement.textContent = "Diverse Workforce: Yes";
+                        profileDiv.appendChild(profDivElement);
+                }
+
+
+                if (profResults.workspace === "true") {
+                        const profModernElement = document.createElement('p');
+                        profModernElement.textContent = "Modern Workspace: Yes";
+                        profileDiv.appendChild(profModernElement);
+                }
 
                 // Clear previous results
                 resultDiv.innerHTML = '';
@@ -109,7 +234,11 @@ async function fetchJobMatches(userId) {
                         const scoreBar = document.createElement('span');
                         scoreBar.classList.add('score-bar');
 
-                        const score = Math.ceil(job.score / 50);
+                        let divisor = 50;
+
+                        if (job.score > 800)
+                                divisor = 80;
+                        const score = Math.ceil(job.score / divisor);
                         for (let i = 0; i < score; i++) {
                                 const img = document.createElement('img');
                                 img.src = 'small_horse.png';
@@ -175,12 +304,19 @@ async function fetchJobMatches(userId) {
 
                         const boolContainer = document.createElement('div');
                         boolContainer.classList.add('bool-container');
+                        boolContainer.classList.add('d-flex');
+                        boolContainer.classList.add('justify-content-center');
                         const genderBox = document.createElement('input');
                         genderBox.type = 'checkbox';
                         const modBox = document.createElement('input');
                         modBox.type = 'checkbox';
                         const divBox = document.createElement('input');
                         divBox.type = 'checkbox';
+
+                        const bool2Container = document.createElement('div');
+                        bool2Container.classList.add('bool-container');
+                        bool2Container.classList.add('d-flex');
+                        bool2Container.classList.add('justify-content-center');
                         const remBox = document.createElement('input');
                         remBox.type = 'checkbox';
                         const flexBox = document.createElement('input');
@@ -218,16 +354,16 @@ async function fetchJobMatches(userId) {
                         boolContainer.appendChild(gLabel);
                         const rLabel = document.createElement('label');
                         rLabel.textContent = `Remote Work Available`;
-                        boolContainer.appendChild(remBox);
-                        boolContainer.appendChild(rLabel);
+                        bool2Container.appendChild(remBox);
+                        bool2Container.appendChild(rLabel);
                         const dLabel = document.createElement('label');
                         dLabel.textContent = `Diverse Workforce`;
                         boolContainer.appendChild(divBox);
                         boolContainer.appendChild(dLabel);
                         const fLabel = document.createElement('label');
                         fLabel.textContent = `Flexible Work Hours`;
-                        boolContainer.appendChild(flexBox);
-                        boolContainer.appendChild(fLabel);
+                        bool2Container.appendChild(flexBox);
+                        bool2Container.appendChild(fLabel);
                         const mLabel = document.createElement('label');
                         mLabel.textContent = `Modern Workspace`;
                         boolContainer.appendChild(modBox);
@@ -235,7 +371,7 @@ async function fetchJobMatches(userId) {
 
 
                         jobCard.appendChild(boolContainer);
-
+                        jobCard.appendChild(bool2Container);
 
                         const applyElement = document.createElement('div');
                         applyElement.classList.add('apply-container');
@@ -247,6 +383,8 @@ async function fetchJobMatches(userId) {
 
                         // Append the job card to the result container
                         resultDiv.appendChild(jobCard);
+
+                        resultsContainer.style.display = "block";
                 });
 
         } catch (error) {
