@@ -6,7 +6,7 @@ The default is http://localhost:18080.
 
 Implemented:  Index page, job match load results page.
 
-TODO: User registration/login/preferences, employer post/edit listing, etc.
+TODO: Employer post/edit listing, etc.
 
 # CORS and nginx proxy
 
