@@ -1,7 +1,7 @@
 # w4156-app
 An app making use of our custom job search API.
 
-The deployed version of this app to see how it functions is at:
+The deployed version of this app to see how it functions can be found at:
 
   http://34.69.114.32/
 
