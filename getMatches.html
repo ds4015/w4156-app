@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,19 +8,21 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
-	<link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@700&family=Underdog&family=Libre+Barcode+39+Text&family=Comforter+Brush&family=Linden+Hill&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@700&family=Underdog&family=Libre+Barcode+39+Text&family=Comforter+Brush&family=Linden+Hill&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <!-- Logout Button -->
+    <!-- Logout Button
     <div class="container mt-3">
         <button id="logout-button" class="btn btn-danger">Logout</button>
-    </div>
+    </div> -->
 
-    <input type="hidden" id="userId" value="" />
     <div class="section">
-        <h1 class="title">b.o.t.h.</h1>
+        <h1 class="title"><a href="/">b.o.t.h.</a></h1>
         <div class="barcode mb-0">
             NORMAL WORK FOR NORMAL FOLK
         </div>
@@ -29,6 +32,38 @@
     </div>
     <div id="load-circle" class="loading-circle"></div>
     <div id="load-text" class="loading-text">Finding Your Matches</div>
+
+    <div id="uid-search">
+        <form id="uidForm">
+            <div class="container" style="height: 100vh;">
+                <div class="row justify-content-center align-items-center h-25">
+                    <div class="col-auto subtitle p-3">
+                        <input type="text" id="uidInput" class="form-control subtitle" placeholder="Enter UID" required>
+                    </div>
+                </div>
+                <div class="row justify-content-center align-items-center h-25">
+                    <div class="col-auto p-3">
+                        <button type="button" class="btn btn-custom" id="setUidButton">Find Job Matches</button>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("setUidButton").addEventListener("click", function () {
+            const uidInput = document.getElementById("uidInput").value.trim();
+
+            if (uidInput === "") {
+                alert("Please enter a valid UID.");
+                return;
+            }
+
+            fetchJobMatches(uidInput);
+        });
+    </script>
     <div id="response"></div>
 
     <!-- Bootstrap JS -->
