@@ -17,6 +17,7 @@ In order to have the app interface correctly with the API, you will need to down
 Once installed, edit/create the configuration file at:
 
   /etc/nginx/sites-available/both (Linux)
+  
   /opt/homebrew/etc/nginx/nginx.conf (macOS)
 
 The config file should include the following:
