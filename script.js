@@ -457,3 +457,56 @@ document.getElementById("listingForm").addEventListener("submit", function (even
                         console.error("Error:", error);
                 });
 });
+
+document.getElementById('generateBtn').addEventListener('click', async () => {
+    const jobTitle = document.getElementById('position').value;
+    const jobField = document.getElementById('field').value;
+    const skill_1 = document.getElementById('skill1_req');
+    const skill_2 = document.getElementById('skill2_req');
+    const skill_3 = document.getElementById('skill3_req');
+    const skill_4 = document.getElementById('skill4_req');
+    const skill_5 = document.getElementById('skill5_req');
+    const annualPay = document.getElementById('pay').value;
+    const loc = document.getElementById('location').value;
+
+    const descriptionTextbox = document.getElementById('job_description');
+
+
+    if (!jobTitle || !jobField || !skill_1 || !skill_2 || !skill_3 || !skill_4 || !skill_5 || !annualPay || !loc) {
+        alert('Please fill in all fields first.');
+        return;}
+
+        descriptionTextbox.value = "Generating AI description...";
+
+    const requestBody = {
+        job_title: jobTitle,
+        job_field: jobField,
+        skill1: skill_1.value,
+        skill2: skill_2.value,
+        skill3: skill_3.value,
+        skill4: skill_4.value,
+        skill5: skill_5.value,
+        pay: annualPay,
+        loc: loc
+    };
+
+        console.log(requestBody);
+
+    try {
+        const response = await fetch('http://localhost:18080/listing/generateJobDescription', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestBody)
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            descriptionTextbox.value = data.description.slice(0, -2);
+        } else {
+            alert('Failed to generate job description.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while generating the job description.');
+    }
+});

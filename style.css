@@ -76,6 +76,16 @@ body {
 	text-align: justify;
 }
 
+.post-container {
+	background-color: #EAEAEA;
+	font-family: 'Linden Hill', serif;
+	font-size: x-large;
+	padding: 30px;
+	margin: 20px auto;
+	max-width: 70%;
+	text-align: justify;
+}
+
 .listing-info {
 	background-color: #4C3549;
 	color: #FFF;
@@ -87,6 +97,51 @@ body {
 	margin: 20px auto;
 	max-width: 800px;
 	text-align: justify;
+}
+
+.listing-field {
+	background-color: #DC758F;
+	color: #FFF;
+	font-family: 'Linden Hill', serif;
+	font-size: x-large;
+	border-radius: 5px;
+	padding: 20px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	margin: 20px auto;
+	text-align: justify;
+}
+
+.listing-field-alt {
+	background-color: #4C3549;
+	color: #FFF;
+	font-family: 'Linden Hill', serif;
+	font-size: x-large;
+	border-radius: 5px;
+	padding: 20px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	margin: 20px auto;
+	text-align: justify;
+}
+
+.listing-field-text {
+	font-family: 'Comforter Brush', serif;
+	font-size: 2rem;
+	letter-spacing: 3px;
+	color: #FFF;
+}
+
+.listing-field-text-small {
+	font-family: 'Comforter Brush', serif;
+	font-size: 1.5rem;
+	letter-spacing: 3px;
+	color: #000;
+}
+
+.job-description-textarea {
+        width: 100%;
+		font-size: x-large;
+        height: 300px; 
+        resize: vertical; 
 }
 
 .button {
@@ -114,6 +169,19 @@ body {
 	max-width: none;
 	width: auto;
 }
+
+.btn-small {
+        font-family: 'Linden Hill', serif;
+        border-radius: 30px;
+        font-size: large;
+        display: inline-block;
+        padding: 20px;
+        margin: 20px;
+        background-color: #DC758F;
+        color: #000;
+        border: none;
+}
+
 
 .apply-container {
 	display: flex;
@@ -143,6 +211,21 @@ body {
 	background-color: #DC758F;
 	color: white;
 }
+
+.btn-small:hover {
+	font-family: 'Linden Hill', serif;
+	border-radius: 30px;
+	font-size: large;
+	display: inline-block;
+	padding: 20px;
+	margin: 20px;
+	background-color: #EAEAEA;
+	color: #000;
+	border: none;
+}
+
+
+
 
 .btn-custom:focus {
 	box-shadow: 0 0 0 0.2rem rgba(45, 125, 210, 0.5);
@@ -298,6 +381,22 @@ body {
 	position: relative;
 	cursor: not-allowed;
 }
+
+.listing-checkbox {
+	width: 18px;
+	height: 18px;
+	border: 1px solid #4C3549;
+	border-radius: 3px;
+	background-color: transparent;
+}
+
+.listing-checkbox:checked {
+	background-color: #4C3549;
+	opacity: 50;
+	border-color: #4C3549;
+	position: relative;
+}
+
 
 label {
 	margin-left: 5px;
