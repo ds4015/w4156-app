@@ -391,3 +391,69 @@ async function fetchJobMatches(userId) {
                 console.error('Job added to queue.', error);
         }
 }
+
+
+/* JOB LISTING - POST */
+
+document.getElementById("listingForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const form = event.target;
+
+        const basicInfo = {
+                cname: form.company.value,
+                csize: form.company_size.value,
+                field: form.field.value,
+                position: form.position.value,
+                job_description: form.job_description.value,
+                location: form.location.value
+        };
+
+        const skillsPersonality = {
+                skill1_req: form.skill1_req.value,
+                skill2_req: form.skill2_req.value,
+                skill3_req: form.skill3_req.value,
+                skill4_req: form.skill4_req.value,
+                skill5_req: form.skill5_req.value,
+                personality_types: form.personality_types.value
+        };
+
+        const pay = parseInt(form.pay.value, 10);
+
+        const boolFields = {
+                job_flexibility: form.job_flexibility.checked,
+                remote_available: form.remote_available.checked,
+                diverse_workforce: form.diverse_workforce.checked,
+                mixed_gender: form.mixed_gender.checked,
+                modern_building: form.modern_building.checked
+        };
+        const data = {
+                basicInfo,
+                skillsPersonality,
+                pay,
+                boolFields
+        };
+        console.log("Listing::insertListing called with:", data);
+        fetch("http://localhost:18080/listing/create", {
+                method: "POST",
+                headers: {
+                        "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data),
+        })
+                .then(response => {
+                        console.log("Response status:", response.status);
+
+                        if (response.status === 200) {
+                           alert("Listing successfully posted!");
+                                window.location.href = 'index.html';
+                        }
+                        return response.text();
+                })
+                .then(data => {
+                        console.log("Response data:", data);
+                })
+                .catch(error => {
+                        console.error("Error:", error);
+                });
+});
