@@ -1,10 +1,14 @@
 # w4156-app
 An app making use of our custom job search API.
 
+The deployed version of this app to see how it functions can be found at:
+
+  http://34.69.114.32/
+
 Anywhere in script.js you find a fetch call, change the address/port the API is running on if necessary.
 The default is http://localhost:18080.
 
-Implemented:  Index page, job match load results page.
+Implemented:  Index page, job match results, user registration.
 
 TODO: Employer post/edit listing, etc.
 
