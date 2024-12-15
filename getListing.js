@@ -62,7 +62,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 	const route = `${CONFIG.SERVER_BASE_URL}/listing/retrieve?lid=${lid}`;
 
-	// Fetch the listing data
 	fetch(route, {
 		method: "GET",
 		headers: {
@@ -104,20 +103,15 @@ document.addEventListener("DOMContentLoaded", async function () {
 			titleSpan.innerHTML = "";
 			titleSpan.appendChild(inputField);
 
-			// Change button text to "Save"
 			editTitle.textContent = "Save Position";
 
-			// Automatically focus the input field
 			inputField.focus();
 		} else {
-			// Save the edited text
 			const inputField = titleSpan.querySelector("input");
 			const updatedText = inputField.value;
 
-			// Replace input with the updated text
 			titleSpan.innerHTML = updatedText;
 
-			// Change button text back to "Edit"
 			editTitle.textContent = "Edit Position";
 			fetch(`${CONFIG.SERVER_BASE_URL}/employer/changePosition?eid=${eid}&lid=${lid}}&newPosition=${updatedText}`, {
 				method: "PATCH",
@@ -133,7 +127,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 					return response.json();
 				})
 				.then((data) => {
-					// Upon successful response, show success message
 					showSuccessMessage(titleSpan);
 				})
 				.catch((error) => {
@@ -158,24 +151,18 @@ document.addEventListener("DOMContentLoaded", async function () {
 			inputField.style.width = `${adjustedWidth}px`;
 			inputField.style.display = "inline-block";
 
-			// Replace div with input
 			paySpan.innerHTML = "";
 			paySpan.appendChild(inputField);
 
-			// Change button text to "Save"
 			editPay.textContent = "Save Pay";
 
-			// Automatically focus the input field
 			inputField.focus();
 		} else {
-			// Save the edited text
 			const inputField = paySpan.querySelector("input");
 			const updatedText = inputField.value;
 
-			// Replace input field with the updated text
 			paySpan.innerHTML = updatedText;
 
-			// Change button text back to "Edit"
 			editPay.textContent = "Edit Pay";
 			fetch(`${CONFIG.SERVER_BASE_URL}/listing/changePay?lid=${lid}}&newPay=${updatedText}`, {
 				method: "PATCH",
@@ -191,7 +178,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 					return response.json();
 				})
 				.then((data) => {
-					// Upon successful response, show success message
 					showSuccessMessage(paySpan);
 				})
 				.catch((error) => {
@@ -217,24 +203,18 @@ document.addEventListener("DOMContentLoaded", async function () {
 			inputField.style.width = `${adjustedWidth}px`;
 			inputField.style.display = "inline-block";
 
-			// Replace div with input
 			fieldSpan.innerHTML = "";
 			fieldSpan.appendChild(inputField);
 
-			// Change button text to "Save"
 			editField.textContent = "Save Field";
 
-			// Automatically focus the input field
 			inputField.focus();
 		} else {
-			// Save the edited text
 			const inputField = fieldSpan.querySelector("input");
 			const updatedText = inputField.value;
 
-			// Replace input field with the updated text
 			fieldSpan.innerHTML = updatedText;
 
-			// Change button text back to "Edit"
 			editField.textContent = "Edit Field";
 			fetch(`${CONFIG.SERVER_BASE_URL}/listing/changeField?lid=${lid}}&newField=${updatedText}`, {
 				method: "PATCH",
@@ -250,7 +230,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 					return response.json();
 				})
 				.then((data) => {
-					// Upon successful response, show success message
 					showSuccessMessage(fieldSpan);
 				})
 				.catch((error) => {
@@ -275,24 +254,18 @@ document.addEventListener("DOMContentLoaded", async function () {
 			inputField.style.width = `${adjustedWidth}px`;
 			inputField.style.display = "inline-block";
 
-			// Replace div with input
 			locationSpan.innerHTML = "";
 			locationSpan.appendChild(inputField);
 
-			// Change button text to "Save"
 			editLocation.textContent = "Save Location";
 
-			// Automatically focus the input field
 			inputField.focus();
 		} else {
-			// Save the edited text
 			const inputField = locationSpan.querySelector("input");
 			const updatedText = inputField.value;
 
-			// Replace input field with the updated text
 			locationSpan.innerHTML = updatedText;
 
-			// Change button text back to "Edit"
 			editLocation.textContent = "Edit Location";
 			fetch(`${CONFIG.SERVER_BASE_URL}/employer/changeLocation?eid=${eid}&lid=${lid}}&newLocation=${updatedText}`, {
 				method: "PATCH",
@@ -308,7 +281,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 					return response.json();
 				})
 				.then((data) => {
-					// Upon successful response, show success message
 					showSuccessMessage(locationSpan);
 				})
 				.catch((error) => {
@@ -333,23 +305,18 @@ document.addEventListener("DOMContentLoaded", async function () {
 			inputField.style.resize = "none";
 			inputField.style.display = "inline-block";
 
-			// Replace div with input
 			descriptionSpan.innerHTML = "";
 			descriptionSpan.appendChild(inputField);
 
-			// Automatically focus the input field
 			inputField.focus();
 
 			if (!newButton) {
 				newButton = document.createElement("button");
 
-
-				// Set button properties
 				newButton.textContent = "Generate AI Job Description";
 				newButton.classList.add("btn");
 				newButton.classList.add("btn-small");
 
-				// Add a click event listener to the new button
 				newButton.addEventListener("click", async () => {
 					const descriptionTextbox = document.getElementById('descriptionSpan');
 
@@ -393,12 +360,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 					}
 				});
 
-				// Append the new button to the container
 				addAIButton.appendChild(newButton);
 			}
 
-
-			// Change button text to "Save"
 			editDescription.textContent = "Save Description";
 
 		} else {
@@ -407,7 +371,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 			if (inputField) {
 				const updatedText = inputField.value;
 
-				// Replace input field with the updated text
 				descriptionSpan.innerHTML = updatedText;
 
 				const existingButton = document.querySelector("#genAI button");
@@ -431,7 +394,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 						return response.json();
 					})
 					.then((data) => {
-						// Upon successful response, show success message
 						showSuccessMessage(descriptionSpan);
 					})
 					.catch((error) => {
@@ -455,25 +417,21 @@ document.addEventListener("DOMContentLoaded", async function () {
 				return;
 			}
 
-			// Check if already in edit mode
 			if (skillButton.querySelector("input")) return;
 
 			const currentText = skillButton.textContent;
 			const inputField = document.createElement("input");
 			const buttonWidth = skillButton.offsetWidth;
 
-			// Configure the input field
 			inputField.type = "text";
 			inputField.value = currentText;
 			inputField.classList.add("form-control", "skill-info");
 			inputField.style.width = `${buttonWidth}px`;
 			inputField.style.display = "inline-block";
 
-			// Replace button content with the input field
 			skillButton.textContent = "";
 			skillButton.appendChild(inputField);
 
-			// Create a "Save" button in the #editSkill container if not already present
 			let saveButton = editSkillContainer.querySelector("btn-edit");
 			if (!saveButton) {
 				saveButton = document.createElement("button");
@@ -481,7 +439,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 				saveButton.classList.add("btn", "btn-edit");
 				editSkillContainer.appendChild(saveButton);
 
-				// Handle Save button clicks
 				saveButton.addEventListener("click", function () {
 
 					const allSkills = [];
@@ -491,7 +448,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 							: button.textContent.trim();
 
 						if (skillName) {
-							allSkills.push({ name: skillName }); // Each skill as an object with a "name"
+							allSkills.push({ name: skillName }); 
 						}
 					});
 
@@ -501,11 +458,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 						return;
 					}
 
-					// Update the button label for the edited skill
 					skillButton.textContent = inputField.value.trim();
 					inputField.remove();
 
-					// Send the updated skills to the backend
 					fetch(`${CONFIG.SERVER_BASE_URL}/employer/changeSkillRequirements?eid=${eid}&lid=${lid}`, {
 						method: "PATCH",
 						headers: {
@@ -530,8 +485,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 				});
 			}
-
-			// Focus on the input field
 			inputField.focus();
 		}
 	});
@@ -541,14 +494,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 			const isChecked = checkbox.checked;
 			const checkboxId = checkbox.id;
 
-			// Get the route for this checkbox
 			const route = routeMap[checkboxId];
 			if (!route) {
 				console.error(`No route defined for checkbox: ${checkboxId}`);
 				return;
 			}
 
-			// Perform the route fetch
 			fetch(route, {
 				method: "PATCH",
 				headers: {
@@ -563,7 +514,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 					return response.json();
 				})
 				.then((data) => {
-					// Upon successful response, show success message
 					showSuccessMessage(checkbox);
 				})
 				.catch((error) => {
@@ -575,7 +525,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 
 	function showSuccessMessage(targetElement) {
-		// Create a message element
 		const message = document.createElement("span");
 		message.textContent = "Listing Updated";
 		message.classList.add("success-message", "barcode");
@@ -593,14 +542,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 		message.style.fontSize = "45px";
 		message.style.transition = "opacity 0.5s ease";
 
-		// Append the message to the body
 		document.body.appendChild(message);
 
-		// Automatically fade out and remove the message
 		setTimeout(() => {
 			message.style.opacity = "0";
-			setTimeout(() => message.remove(), 500); // Wait for fade-out before removing
-		}, 2000); // Show for 2 seconds
+			setTimeout(() => message.remove(), 500); 
+		}, 2000); 
 	}
 
 	function populateFields(data) {
@@ -608,7 +555,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 		const stripQuotes = (value) =>
 			typeof value === "string" ? value.replace(/^"|"$/g, "") : value;
 
-		// Assuming data contains fields corresponding to checkboxes
 		const checkboxMap = {
 			gender: data.gender,
 			modern: data.modern,
@@ -632,14 +578,14 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 		Object.keys(checkboxMap).forEach((id) => {
 			const checkbox = document.getElementById(id);
-			const value = stripQuotes(checkboxMap[id]); // Assuming stripQuotes removes quotes around "true"/"false"
+			const value = stripQuotes(checkboxMap[id]); 
 			console.log(`Value for ${id}:`, value);
 
-			// Check if the value is true or a truthy string
+
 			if (value === true || value === "true") {
 				checkbox.checked = true;
 			} else {
-				checkbox.checked = false; // Explicitly uncheck for false or other values
+				checkbox.checked = false; 
 			}
 		});
 

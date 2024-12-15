@@ -74,11 +74,11 @@
 				<div class="row d-flex align-items-center">
 					<div class="col-10 skills-container">
 						Skills Required: (click to edit)<br>
-						 <button id="skill1" class="btn skill-info"></button>
-						 <button id="skill2" class="btn skill-info"></button>
-						 <button id="skill3" class="btn skill-info"></button>
-						 <button id="skill4" class="btn skill-info"></button>
-						 <button id="skill5" class="btn skill-info"></button>
+						<button id="skill1" class="btn skill-info"></button>
+						<button id="skill2" class="btn skill-info"></button>
+						<button id="skill3" class="btn skill-info"></button>
+						<button id="skill4" class="btn skill-info"></button>
+						<button id="skill5" class="btn skill-info"></button>
 					</div>
 					<div id="editSkill" class="col-2">
 					</div>
@@ -87,7 +87,7 @@
 					<div class="col-10 d-flex bool-container justify-content-center">
 						<input type="checkbox" id="gender" class="listing-checkbox"><label>Gender Equality</label>
 						<input type="checkbox" id="modern" class="listing-checkbox"><label>Modern Workspace</label>
-						<input type="checkbox" id="diverse" class="listing-checkbox"><label>Diverse Workforce</label>				
+						<input type="checkbox" id="diverse" class="listing-checkbox"><label>Diverse Workforce</label>
 					</div>
 					<div class="col-2">
 					</div>
@@ -106,92 +106,6 @@
 
 
 	</div>
-	<!-- 
-jobResults.forEach((job) => {
-
-	const boolContainer = document.createElement('div');
-	boolContainer.classList.add('bool-container');
-	boolContainer.classList.add('d-flex');
-	boolContainer.classList.add('justify-content-center');
-	const genderBox = document.createElement('input');
-	genderBox.type = 'checkbox';
-	const modBox = document.createElement('input');
-	modBox.type = 'checkbox';
-	const divBox = document.createElement('input');
-	divBox.type = 'checkbox';
-
-	const bool2Container = document.createElement('div');
-	bool2Container.classList.add('bool-container');
-	bool2Container.classList.add('d-flex');
-	bool2Container.classList.add('justify-content-center');
-	const remBox = document.createElement('input');
-	remBox.type = 'checkbox';
-	const flexBox = document.createElement('input');
-	flexBox.type = 'checkbox';
-	if (job.gender == "true")
-			genderBox.checked = true;
-	else
-			genderBox.checked = false;
-	if (job.modern == "true")
-			modBox.checked = true;
-	else
-			modBox.checked = false;
-	if (job.diversity == "true")
-			divBox.checked = true;
-	else
-			divBox.checked = false;
-	if (job.remote == "true")
-			remBox.checked = true;
-	else
-			remBox.checked = false;
-	if (job.flex == "true")
-			flexBox.checked = true;
-	else
-			flexBox.checked = false;
-
-	flexBox.classList.add('transparent-checkbox');
-	modBox.classList.add('transparent-checkbox');
-	genderBox.classList.add('transparent-checkbox');
-	divBox.classList.add('transparent-checkbox');
-	remBox.classList.add('transparent-checkbox');
-
-	const gLabel = document.createElement('label');
-	gLabel.textContent = `Gender Equality`;
-	boolContainer.appendChild(genderBox);
-	boolContainer.appendChild(gLabel);
-	const rLabel = document.createElement('label');
-	rLabel.textContent = `Remote Work Available`;
-	bool2Container.appendChild(remBox);
-	bool2Container.appendChild(rLabel);
-	const dLabel = document.createElement('label');
-	dLabel.textContent = `Diverse Workforce`;
-	boolContainer.appendChild(divBox);
-	boolContainer.appendChild(dLabel);
-	const fLabel = document.createElement('label');
-	fLabel.textContent = `Flexible Work Hours`;
-	bool2Container.appendChild(flexBox);
-	bool2Container.appendChild(fLabel);
-	const mLabel = document.createElement('label');
-	mLabel.textContent = `Modern Workspace`;
-	boolContainer.appendChild(modBox);
-	boolContainer.appendChild(mLabel);
-
-
-	jobCard.appendChild(boolContainer);
-	jobCard.appendChild(bool2Container);
-
-	const applyElement = document.createElement('div');
-	applyElement.classList.add('apply-container');
-	const applyButton = document.createElement('div');
-	applyButton.classList.add('btn-apply');
-	applyButton.textContent = 'This Sounds Good';
-	applyElement.appendChild(applyButton);
-	jobCard.appendChild(applyElement);
-
-	// Append the job card to the result container
-	resultDiv.appendChild(jobCard);
-
--->
 
 	<div class="row justify-content-center mt-5 mb-5">
 		<div class="col-12 label">©2024 Lionhackerz/back on the horse</div>
