@@ -8,9 +8,7 @@ The deployed version of this app to see how it functions can be found at:
 Anywhere in script.js you find a fetch call, change the address/port the API is running on if necessary.
 The default is http://localhost:18080.
 
-Implemented:  Index page, job match results, user registration.
-
-TODO: Employer post/edit listing, etc.
+Implemented:  Index page, job match results, user registration, create job listing.
 
 # CORS and nginx proxy
 
