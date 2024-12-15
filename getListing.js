@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 	console.log("LID:", lid);
 	console.log("EID:", eid);
 	
-
+	const companySpan = document.getElementById("companySpan");
 	const titleSpan = document.getElementById("titleSpan");
 	const editTitle = document.getElementById("editTitle");
 	const paySpan = document.getElementById("paySpan");
@@ -51,6 +51,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 	const skillContainer = document.querySelector(".skills-container");
 	const editSkillContainer = document.getElementById("editSkill");
 	const allCheckboxes = document.querySelectorAll(".listing-checkbox");
+	const loading = document.getElementById("loading");
 
 	const routeMap = {
 		gender: `${CONFIG.SERVER_BASE_URL}/employer/changeGender?eid=${eid}&lid=${lid}`,
@@ -79,10 +80,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 			populateFields(data);
 			const listingContainer = document.getElementById("listing");
 			listingContainer.classList.remove("d-none");
+			loading.classList.add("d-none")
 		})
 		.catch((error) => {
 			console.error("Error fetching listing data:", error);
-			alert("Failed to load listing data.");
+			alert("Failed to load listing data. Check that LID is valid.");
+			loading.classList.add("d-none");
 		});
 
 	editTitle.addEventListener("click", function () {
@@ -336,7 +339,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 						skill4: skill4.innerHTML,
 						skill5: skill5.innerHTML,
 						pay: paySpan.innerHTML,
-						loc: locationSpan.innerHTML
+						loc: locationSpan.innerHTML,
 					};
 
 					console.log(requestBody);
@@ -350,7 +353,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 						if (response.ok) {
 							const data = await response.json();
-							inputField.value = data.description.slice(0, -2);
+							console.log(data.description);
+							inputField.value = data.description;
 						} else {
 							alert('Failed to generate job description.');
 						}
@@ -477,6 +481,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 						})
 						.then((data) => {
 							showSuccessMessage(skillButton);
+							saveButton.remove();
 						})
 						.catch((error) => {
 							console.error("Error updating skills:", error);
@@ -564,6 +569,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 		};
 
 		const spanMap = {
+			companySpan: data.company,
 			fieldSpan: data.field,
 			descriptionSpan: data.description,
 			locationSpan: data.location,
@@ -579,8 +585,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 		Object.keys(checkboxMap).forEach((id) => {
 			const checkbox = document.getElementById(id);
 			const value = stripQuotes(checkboxMap[id]); 
-			console.log(`Value for ${id}:`, value);
-
 
 			if (value === true || value === "true") {
 				checkbox.checked = true;
@@ -593,6 +597,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 			const span = document.getElementById(id);
 			if (span) {
 				span.textContent = stripQuotes(spanMap[id]);
+				const value = stripQuotes(spanMap[id]); 
 			}
 		});
 	}

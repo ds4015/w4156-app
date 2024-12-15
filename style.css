@@ -227,6 +227,19 @@ body {
 	border: none;
 }
 
+.btn-edit:hover {
+	transform: scale(1.1); 
+	background-color: #8EA558;
+	font-family: 'Linden Hill', serif;
+	border-radius: 10px;
+	font-size: medium;
+	display: inline-block;
+	padding: 10px;
+	margin: 10px;
+    color: white;
+	border: none;
+}
+
 .apply-container {
 	display: flex;
 	justify-content: center;
