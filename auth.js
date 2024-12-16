@@ -6,10 +6,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const uname = localStorage.getItem("uname");
     const realname = localStorage.getItem("realname");
 
+    let rn = realname;
+
+    if (realname === "null")
+        rn = uname;
+
     if (uname && realname) {
         loggedInBar.innerHTML = `
             <div class="site-info pl-4 pr-4 pt-0 pb-0 mt-1 d-flex justify-content-between align-items-center">
-                <span>Welcome, ${realname} (${uname})!</span>
+                <span>Welcome, ${rn} (${uname})!</span>
                 <button id="logoutButton" class="btn btn-logout">Logout</button>
             </div>
         `;
