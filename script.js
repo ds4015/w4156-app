@@ -6,11 +6,30 @@ const loadingText = document.getElementById("load-text");
 const loadingCircle = document.getElementById("load-circle");
 const uidForm = document.getElementById("uid-search");
 let getProgress = false;
+let reloaded = false;
+
+document.addEventListener("DOMContentLoaded", function () {
+        const uid = localStorage.getItem("uid");
+        const uname = localStorage.getItem("uname");
+
+        if (!(uid && uname)) {
+            uidForm.style.display = "block";
+        } else {
+            uidForm.style.display = "none";
+            fetchJobMatches(uid);
+        }
+});
 
 /* Get progress on Match */
 async function fetchProgress(userId) {
         try {
-                const response = await fetch(`http://34.69.114.32/api/progress/${userId}`);
+                const response = await fetch(`${CONFIG.SERVER_BASE_URL}/progress/${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Basic ${btoa(CONFIG.API_KEY + ':')}`,
+                }
+                });
                 if (!response.ok) {
                         console.error("Failed to fetch progress:", response.statusText);
                         return null;
@@ -31,14 +50,33 @@ function updateProgressBar(progress) {
         progressBar.textContent = `${progress}%`;
 }
 
+async function checkStatus(userId) {
+        try {
+            const response = await fetch(`/checkStatus?uid=${userId}`, { method: "GET" });
+            if (!response.ok) {
+                console.error("Failed to fetch status");
+                return "not found";
+            }
+            const data = await response.json();
+            return data; 
+        } catch (error) {
+            console.error("Error fetching status:", error);
+            return "not found";
+        }
+}
+
 /* Start checking progress once job added to queue */
-function startProgressCheck(userId) {
+async function startProgressCheck(userId) {
         if (getProgress)
                 return;
+        
         const interval = setInterval(async () => {
                 const progress = await fetchProgress(userId);
-                if (!progress) return;
+                if (!progress) {
+                         return;
+                }
                 if (progress.status === "completed") {
+                        reloaded = true;
                         updateProgressBar(100);
                         clearInterval(interval);
                         if (progressBarContainer) {
@@ -52,6 +90,7 @@ function startProgressCheck(userId) {
                         });
                 } else {
                         progressBarContainer.style.display = "block";
+                        loadingText.textContent = "Finding Your Matches";
                         loadingText.style.display = "block";
                         loadingCircle.style.display = "block";
                         updateProgressBar(progress.progress);
@@ -62,28 +101,44 @@ function startProgressCheck(userId) {
 /* Main function that gets and prints the job results */
 async function fetchJobMatches(userId) {
         resultsContainer.style.display = "none";
-        uidForm.style.display = "none";
-        startProgressCheck(userId);
+        if (!reloaded)
+                startProgressCheck(userId);
         const resultDiv = document.getElementById('response');
         const profileDiv = document.getElementById('profile');
         try {
                 // Fetch job matches
-                const response = await fetch(`http://34.69.114.32/api/getMatches?uid=${userId}`);
+                const response = await fetch(`${CONFIG.SERVER_BASE_URL}/getMatches?uid=${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Basic ${btoa(CONFIG.API_KEY + ':')}`,
+                }
+                });
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                loadingText.textContent = "You have been added to the queue for matching.  Check back in a bit.";
+                loadingText.style.display = "block";
                 const data = await response.json();
                 console.log(data.results);
                 const jobResults = JSON.parse(data.results);
                 console.log(jobResults); // Full JSON object
-
-                const profResponse = await fetch(`http://34.69.114.32/api/getProfile?uid=${userId}`)
+                loadingText.style.display = "none";
+                const profResponse = await fetch(`${CONFIG.SERVER_BASE_URL}/getProfile?uid=${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Basic ${btoa(CONFIG.API_KEY + ':')}`,
+                }
+                });
                 const profData = await profResponse.json();
                 console.log(profData.results);
                 const profResults = JSON.parse(profData.results);
                 console.log(profResults);
 
+                const realname = localStorage.getItem("realname");
+
                 profileDiv.innerHTML = '';
                 const profHeadElement = document.createElement('h3');
-                profHeadElement.textContent = `Your Profile`;
+                profHeadElement.textContent = `${realname}'s Profile`;
                 profileDiv.appendChild(profHeadElement);
 
                 const profFieldElement = document.createElement('p');
@@ -393,120 +448,3 @@ async function fetchJobMatches(userId) {
 }
 
 
-/* JOB LISTING - POST */
-
-document.getElementById("listingForm").addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const form = event.target;
-
-        const basicInfo = {
-                cname: form.company.value,
-                csize: form.company_size.value,
-                field: form.field.value,
-                position: form.position.value,
-                job_description: form.job_description.value,
-                location: form.location.value
-        };
-
-        const skillsPersonality = {
-                skill1_req: form.skill1_req.value,
-                skill2_req: form.skill2_req.value,
-                skill3_req: form.skill3_req.value,
-                skill4_req: form.skill4_req.value,
-                skill5_req: form.skill5_req.value,
-                personality_types: form.personality_types.value
-        };
-
-        const pay = parseInt(form.pay.value, 10);
-
-        const boolFields = {
-                job_flexibility: form.job_flexibility.checked,
-                remote_available: form.remote_available.checked,
-                diverse_workforce: form.diverse_workforce.checked,
-                mixed_gender: form.mixed_gender.checked,
-                modern_building: form.modern_building.checked
-        };
-        const data = {
-                basicInfo,
-                skillsPersonality,
-                pay,
-                boolFields
-        };
-        console.log("Listing::insertListing called with:", data);
-        fetch("http://localhost:18080/listing/create", {
-                method: "POST",
-                headers: {
-                        "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data),
-        })
-                .then(response => {
-                        console.log("Response status:", response.status);
-
-                        if (response.status === 200) {
-                           alert("Listing successfully posted!");
-                                window.location.href = 'index.html';
-                        }
-                        return response.text();
-                })
-                .then(data => {
-                        console.log("Response data:", data);
-                })
-                .catch(error => {
-                        console.error("Error:", error);
-                });
-});
-
-document.getElementById('generateBtn').addEventListener('click', async () => {
-    const jobTitle = document.getElementById('position').value;
-    const jobField = document.getElementById('field').value;
-    const skill_1 = document.getElementById('skill1_req');
-    const skill_2 = document.getElementById('skill2_req');
-    const skill_3 = document.getElementById('skill3_req');
-    const skill_4 = document.getElementById('skill4_req');
-    const skill_5 = document.getElementById('skill5_req');
-    const annualPay = document.getElementById('pay').value;
-    const loc = document.getElementById('location').value;
-
-    const descriptionTextbox = document.getElementById('job_description');
-
-
-    if (!jobTitle || !jobField || !skill_1 || !skill_2 || !skill_3 || !skill_4 || !skill_5 || !annualPay || !loc) {
-        alert('Please fill in all fields first.');
-        return;}
-
-        descriptionTextbox.value = "Generating AI description...";
-
-    const requestBody = {
-        job_title: jobTitle,
-        job_field: jobField,
-        skill1: skill_1.value,
-        skill2: skill_2.value,
-        skill3: skill_3.value,
-        skill4: skill_4.value,
-        skill5: skill_5.value,
-        pay: annualPay,
-        loc: loc
-    };
-
-        console.log(requestBody);
-
-    try {
-        const response = await fetch('http://localhost:18080/listing/generateJobDescription', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(requestBody)
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            descriptionTextbox.value = data.description.slice(0, -2);
-        } else {
-            alert('Failed to generate job description.');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred while generating the job description.');
-    }
-});

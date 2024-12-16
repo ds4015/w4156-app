@@ -44,15 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(skillsList);
         console.log(interestsList);
 
-        // Collect optional skills
-//        const skillsSelect = document.getElementById('skills');
-  //      const selectedSkills = Array.from(skillsSelect.selectedOptions).map(option => option.value);
-
-        // Collect optional interests
-    //    const interestsSelect = document.getElementById('interests');
-      //  const selectedInterests = Array.from(interestsSelect.selectedOptions).map(option => option.value);
-
-        // Collect augments (importance levels)
         const augments = [];
 
         const augmentFields = [
@@ -158,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.location.href = 'getMatches.html';
                 } else {
                     alert('Registration successful. Please log in with your credentials.');
-                    window.location.href = 'index.html';                    
+                    window.location.href = 'user_portal.html';                    
                 }
             } else {
                 const errorData = await response.json();

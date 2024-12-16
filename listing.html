@@ -25,7 +25,33 @@
 	<div class="row">
 		<div class="col-12 subtitle">View/Edit Job Listing</div>
 	</div>
-	<div class="row" id="loading">
+    <div id="lid-search" class="d-none">
+        <form id="lidForm">
+            <div class="container">
+                <div class="row justify-content-center align-items-center h-25">
+                    <div class="col-auto subtitle p-0">
+                        <input type="text" id="lidInput" class="form-control subtitle" placeholder="Enter listing ID" required>
+                    </div>
+                    <div class="col-auto p-3">
+                        <button type="button" class="btn btn-custom-e" id="setLidButton">View/Edit Listing</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById("setLidButton").addEventListener("click", function () {
+            const lidInput = document.getElementById("lidInput").value.trim();
+
+            if (lidInput === "") {
+                alert("Please enter a valid LID.");
+                return;
+            }
+            window.location.href = `listing.html?lid=${lidInput}`;
+        });
+    </script>
+
+	<div class="row d-none" id="loading">
 		<div class="col-12 status-text">Loading listing. Please wait...</div>
 	</div>
 	<div id="listing" class="container my-5 w-75 d-none">
@@ -109,7 +135,7 @@
 
 	</div>
 
-	<div class="row justify-content-center mt-5 mb-5">
+	<div class="row justify-content-center mt-5 pt-5 mb-5">
 		<div class="col-12 label">©2024 Lionhackerz/back on the horse</div>
 	</div>
 

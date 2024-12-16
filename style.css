@@ -203,6 +203,22 @@ body {
 	width: auto;
 }
 
+.btn-custom-e:hover {
+	transform: scale(1.05); 
+	font-family: 'Linden Hill', serif;
+	border-radius: 30px;
+	font-size: xx-large;
+	display: inline-block;
+	padding: 20px;
+	margin-right: 10px;
+	background-color: #8ba256;
+	color: white;
+	border: none;
+	white-space: nowrap;
+	max-width: none;
+	width: auto;
+}
+
 .btn-small {
         font-family: 'Linden Hill', serif;
         border-radius: 30px;
@@ -259,12 +275,12 @@ body {
 }
 
 .btn-custom:hover {
+	transform: scale(1.05); 
 	font-family: 'Linden Hill', serif;
 	border-radius: 30px;
 	font-size: xx-large;
 	display: inline-block;
 	padding: 20px;
-
 	background-color: #DC758F;
 	color: white;
 }

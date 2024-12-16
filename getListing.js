@@ -1,11 +1,14 @@
 /* EDIT JOB LISTING */
 
+const lidSearch = document.getElementById("lid-search");
+
 async function getQueryParams() {
 	const params = new URLSearchParams(window.location.search);
 
 	const lid = params.get("lid");
 
 	if (!lid) {
+		lidSearch.classList.remove("d-none");
 		throw new Error("lid is missing in the URL query parameters.");
 	}
 
@@ -52,6 +55,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 	const editSkillContainer = document.getElementById("editSkill");
 	const allCheckboxes = document.querySelectorAll(".listing-checkbox");
 	const loading = document.getElementById("loading");
+
+	loading.classList.remove("d-none");
 
 	const routeMap = {
 		gender: `${CONFIG.SERVER_BASE_URL}/employer/changeGender?eid=${eid}&lid=${lid}`,
@@ -253,7 +258,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 			inputField.classList.add("form-control");
 			inputField.classList.add("listing-info");
 			const spanWidth = locationSpan.offsetWidth;
-			const adjustedWidth = spanWidth * 1.5;
+			const adjustedWidth = spanWidth * 1.8;
 			inputField.style.width = `${adjustedWidth}px`;
 			inputField.style.display = "inline-block";
 
