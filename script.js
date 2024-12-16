@@ -52,7 +52,7 @@ function updateProgressBar(progress) {
 
 async function checkStatus(userId) {
         try {
-            const response = await fetch(`/checkStatus?uid=${userId}`, { method: "GET" });
+            const response = await fetch(`${CONFIG.SERVER_BASE_URL}/checkStatus?uid=${userId}`, { method: "GET" });
             if (!response.ok) {
                 console.error("Failed to fetch status");
                 return "not found";

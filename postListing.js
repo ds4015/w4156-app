@@ -39,7 +39,7 @@ document.getElementById("listingForm").addEventListener("submit", function (even
 		boolFields
 	};
 	console.log("Listing::insertListing called with:", data);
-	fetch("http://127.0.0.1/listing/create", {
+	fetch(`${CONFIG.SERVER_BASE_URL}/listing/create`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json"
@@ -110,7 +110,7 @@ document.getElementById('generateBtn').addEventListener('click', async () => {
 	console.log(requestBody);
 
 	try {
-		const response = await fetch('http://127.0.0.1/listing/generateJobDescription', {
+		const response = await fetch(`${CONFIG.SERVER_BASE_URL}/listing/generateJobDescription`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(requestBody)

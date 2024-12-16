@@ -351,7 +351,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 					console.log(requestBody);
 
 					try {
-						const response = await fetch('http://127.0.0.1/listing/generateJobDescription', {
+						const response = await fetch(`${CONFIG.SERVER_BASE_URL}/listing/generateJobDescription`, {
 							method: 'POST',
 							headers: { 'Content-Type': 'application/json' },
 							body: JSON.stringify(requestBody)
