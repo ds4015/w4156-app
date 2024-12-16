@@ -49,13 +49,15 @@
     <script>
         document.getElementById("setUidButton").addEventListener("click", function () {
             const uidInput = document.getElementById("uidInput").value.trim();
+            const uidSearch = document.getElementById("uid-search");
 
             if (uidInput === "") {
                 alert("Please enter a valid UID.");
                 return;
             }
-            reloaded = false;
 
+            reloaded = false;
+            uidSearch.style.display = "none";
             fetchJobMatches(uidInput);
         });
     </script>
