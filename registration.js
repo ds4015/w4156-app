@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-api-key': CONFIG.API_KEY 
+                    'Authorization': `Basic ${btoa(CONFIG.API_KEY + ':')}`,
                 },
                 body: JSON.stringify(userData),
             });

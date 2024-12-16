@@ -91,6 +91,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 			console.error("Error fetching listing data:", error);
 			alert("Failed to load listing data. Check that LID is valid.");
 			loading.classList.add("d-none");
+			window.location.href = "listing.html";
 		});
 
 	editTitle.addEventListener("click", function () {
