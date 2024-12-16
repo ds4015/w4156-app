@@ -48,9 +48,9 @@
 
     <script>
         document.getElementById("setUidButton").addEventListener("click", function () {
+            event.preventDefault();
             const uidInput = document.getElementById("uidInput").value.trim();
             const uidSearch = document.getElementById("uid-search");
-
             if (uidInput === "") {
                 alert("Please enter a valid UID.");
                 return;

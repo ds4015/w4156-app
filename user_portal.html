@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>b.o.t.h. - Job Seekers</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@700&family=Underdog&family=Libre+Barcode+39+Text&family=Comforter+Brush&family=Linden+Hill&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="section text-center">
+        <h1 class="title"><a href="/">b.o.t.h.</a></h1>
+        <div class="barcode mb-0">
+            NORMAL WORK FOR NORMAL FOLK
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const uid = localStorage.getItem("uid");
+            const uname = localStorage.getItem("uname");
+
+            if (uid && uname) {
+                const personButton = document.getElementById("personButton");
+                personButton.textContent = "Find Me Work";
+                personButton.href = "getMatches.html";
+
+                const employerButton = document.getElementById("employerButton");
+                employerButton.textContent = "Logout";
+                employerButton.href = "logout.html"; 
+            }
+        });
+    </script>
+
+    <div class="row justify-content-center mt-0 mb-5">
+        <a id="personButton" class="col-3 btn btn-custom apply-container" href="register.html">Register an Account</a>
+        <a id="employerButton" class="col-3 btn btn-custom apply-container" href="login.html">User Login</a>
+    </div>
+	<p class="status-text"><a href="getMatches.html">[ Admin Get Matches ]</a></p>
+    <div class="site-info container">
+        <p>
+            Everyone is deserving of a decent job that pays a living wage.
+            Regardless of age, background, race, or the ability to attend a good college,
+            it is our belief that dignified work is a human right. b.o.t.h. (back on the horse) 
+            matches people of all sorts of backgrounds with jobs that suit them best. We look 
+            for employers with a moral backbone who care not only about the type of work their 
+            employees do but also that they are making a good wage doing it.
+        </p>
+    </div>
+
+   
+    <div class="row justify-content-center mt-5 mb-5">
+        <div class="col-12">©2024 Lionhackerz/back on the horse</div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Configuration Script -->
+    <script src="config.js" defer></script>
+    <!-- Registration Script -->
+    <script src="registration.js" defer></script>
+</body>
+</html>
