@@ -1,50 +1,24 @@
-// Kelvin Kim sk4802 
-//auth.js to handle authentication
+/* LOGGED IN CHECK */
 
-document.addEventListener('DOMContentLoaded', () => {
-    const authToken = localStorage.getItem('authToken');
+document.addEventListener("DOMContentLoaded", function () {
+    const loggedInBar = document.getElementById("logged-in-bar");
 
-    /**
-     * Decodes a JWT token and returns the payload.
-     * @param {string} token - The JWT token.
-     * @returns {object|null} - The payload of the token or null if invalid.
-     */
-    function parseJwt(token) {
-        try {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-            return JSON.parse(jsonPayload);
-        } catch (e) {
-            return null;
-        }
-    }
+    const uname = localStorage.getItem("uname");
+    const realname = localStorage.getItem("realname");
 
-    if (!authToken) {
-        // No token found, redirect to registration page
-        window.location.href = 'index.html';
-    } else {
-        // Decode the token to get user information
-        const userData = parseJwt(authToken);
-        if (!userData) {
-            // Invalid token, redirect to registration
-            window.location.href = 'index.html';
-        } else {
-            // Token is valid, set the userId and start fetching matches
-            const uid = userData.user_id; // Adjust based on your JWT payload
-            document.getElementById("userId").value = uid;
-            fetchJobMatches(uid);
-        }
-    }
+    if (uname && realname) {
+        loggedInBar.innerHTML = `
+            <div class="site-info pl-4 pr-4 pt-0 pb-0 mt-1 d-flex justify-content-between align-items-center">
+                <span>Welcome, ${realname} (${uname})!</span>
+                <button id="logoutButton" class="btn btn-logout">Logout</button>
+            </div>
+        `;
 
-    // Handle Logout
-    const logoutButton = document.getElementById('logout-button');
-    if (logoutButton) {
-        logoutButton.addEventListener('click', () => {
-            localStorage.removeItem('authToken');
-            window.location.href = 'index.html';
+        // Add event listener to the logout button
+        document.getElementById("logoutButton").addEventListener("click", function () {
+            localStorage.clear(); // Clear login details
+            alert("You have been logged out.");
+            window.location.reload(); // Reload the page to reflect logout state
         });
     }
 });

@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             uidForm.style.display = "none";
             fetchJobMatches(uid);
+            startProgressCheck(uid);
         }
 });
 
@@ -70,6 +71,7 @@ async function startProgressCheck(userId) {
         if (getProgress)
                 return;
         
+        progressBarContainer.style.display = "block";
         const interval = setInterval(async () => {
                 const progress = await fetchProgress(userId);
                 if (!progress) {
@@ -134,11 +136,16 @@ async function fetchJobMatches(userId) {
                 const profResults = JSON.parse(profData.results);
                 console.log(profResults);
 
-                const realname = localStorage.getItem("realname");
+                const uname = localStorage.getItem("uname");
+                let profile_name = '';
+                if (!uname)
+                        profile_name = "Your Profile";
+                else
+                        profile_name = `${uname}'s Profile`;
 
                 profileDiv.innerHTML = '';
                 const profHeadElement = document.createElement('h3');
-                profHeadElement.textContent = `${realname}'s Profile`;
+                profHeadElement.textContent = `${profile_name}`;
                 profileDiv.appendChild(profHeadElement);
 
                 const profFieldElement = document.createElement('p');
@@ -289,10 +296,8 @@ async function fetchJobMatches(userId) {
                         const scoreBar = document.createElement('span');
                         scoreBar.classList.add('score-bar');
 
-                        let divisor = 50;
+                        let divisor = 100;
 
-                        if (job.score > 800)
-                                divisor = 80;
                         const score = Math.ceil(job.score / divisor);
                         for (let i = 0; i < score; i++) {
                                 const img = document.createElement('img');

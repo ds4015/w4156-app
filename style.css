@@ -11,7 +11,12 @@ body {
 	text-align: center;
 	padding: 50px 20px;
 }
-
+.kavivanar-regular {
+	font-family: "Kavivanar", cursive;
+	font-weight: 400;
+	font-style: normal;
+  }
+  
 .title {
 	font-family: 'Comforter Brush', serif;
 	font-size: 8rem;
@@ -162,6 +167,19 @@ body {
         resize: vertical; 
 }
 
+.top-bar {
+	background: linear-gradient(to right,#4C3549,#fff);
+	font-family: 'Linden Hill', serif;
+	font-size: x-large;
+	border-radius: 10px;
+	color: #fff;
+	padding: 30px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	margin: 20px auto;
+	max-width: 75%;
+	text-align: justify;
+}
+
 .button {
 	font-family: 'Comforter Brush', cursive;
 	border-radius: 30px;
@@ -239,6 +257,31 @@ body {
 	padding: 10px;
 	margin: 10px;
 	background: linear-gradient(to bottom, #788950, #4f5d2f); 
+    color: white;
+	border: none;
+}
+
+.btn-logout {
+	font-family: 'Linden Hill', serif;
+	border-radius: 10px;
+	font-size: medium;
+	display: inline-block;
+	padding: 10px;
+	margin: 10px;
+	background: linear-gradient(to bottom, #70619F, #392f5a); 
+    color: white;
+	border: none;
+}
+
+.btn-logout:hover {
+	transform: scale(1.1); 
+	font-family: 'Linden Hill', serif;
+	border-radius: 10px;
+	font-size: medium;
+	display: inline-block;
+	padding: 10px;
+	margin: 10px;
+	background: linear-gradient(to bottom, #70619F, #392f5a); 
     color: white;
 	border: none;
 }
