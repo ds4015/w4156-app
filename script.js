@@ -8,28 +8,66 @@ const uidForm = document.getElementById("uid-search");
 let getProgress = false;
 let reloaded = false;
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
         const uid = localStorage.getItem("uid");
         const uname = localStorage.getItem("uname");
 
+
         if (!(uid && uname)) {
-            uidForm.style.display = "block";
-        } else {
-            uidForm.style.display = "none";
-            fetchJobMatches(uid);
-            startProgressCheck(uid);
-        }
+                // Show form to enter UID for non-logged-in users
+                uidForm.style.display = "block";
+                resultsContainer.style.display = "none";
+                uidForm.addEventListener("submit", async (e) => {
+                    e.preventDefault(); 
+                    const userId = document.getElementById("uidInput").value; 
+                    if (userId) {
+                        uidForm.style.display = "none"; 
+                        await handleUserMatchProcess(userId);
+                    }
+                });
+            } else {
+                uidForm.style.display = "none";
+                resultsContainer.style.display = "none";
+                await handleUserMatchProcess(uid);
+            }
 });
+
+async function handleUserMatchProcess(userId) {
+        showLoadingBar(); 
+    
+        const progress = await fetchProgress(userId); 
+        if (progress && progress.status === "completed") {
+            await fetchJobMatches(userId);
+        } else {
+                resultsContainer.style.display = "none";
+                fetchJobMatches(userId);
+        }
+    }
+
+
+function showLoadingBar() {
+        progressBarContainer.style.display = "block";
+        loadingText.style.display = "block";
+        loadingText.textContent = "Finding Your Matches";
+        loadingCircle.style.display = "block";
+}
+
+
+function hideLoadingBar() {
+        progressBarContainer.style.display = "none";
+        loadingText.style.display = "none";
+        loadingCircle.style.display = "none";
+}
 
 /* Get progress on Match */
 async function fetchProgress(userId) {
         try {
                 const response = await fetch(`${CONFIG.SERVER_BASE_URL}/progress/${userId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Basic ${btoa(CONFIG.API_KEY + ':')}`,
-                }
+                        method: 'GET',
+                        headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Basic ${btoa(CONFIG.API_KEY + ':')}`,
+                        }
                 });
                 if (!response.ok) {
                         console.error("Failed to fetch progress:", response.statusText);
@@ -53,16 +91,16 @@ function updateProgressBar(progress) {
 
 async function checkStatus(userId) {
         try {
-            const response = await fetch(`${CONFIG.SERVER_BASE_URL}/checkStatus?uid=${userId}`, { method: "GET" });
-            if (!response.ok) {
-                console.error("Failed to fetch status");
-                return "not found";
-            }
-            const data = await response.json();
-            return data; 
+                const response = await fetch(`${CONFIG.SERVER_BASE_URL}/checkStatus?uid=${userId}`, { method: "GET" });
+                if (!response.ok) {
+                        console.error("Failed to fetch status");
+                        return "not found";
+                }
+                const data = await response.json();
+                return data;
         } catch (error) {
-            console.error("Error fetching status:", error);
-            return "not found";
+                console.error("Error fetching status:", error);
+                return "not found";
         }
 }
 
@@ -70,66 +108,65 @@ async function checkStatus(userId) {
 async function startProgressCheck(userId) {
         if (getProgress)
                 return;
-        
-        progressBarContainer.style.display = "block";
+
+        progressBarContainer.style.display = "block"; 
         const interval = setInterval(async () => {
-                const progress = await fetchProgress(userId);
-                if (!progress) {
-                         return;
-                }
-                if (progress.status === "completed") {
-                        reloaded = true;
-                        updateProgressBar(100);
-                        clearInterval(interval);
-                        if (progressBarContainer) {
-                                progressBarContainer.style.display = "none";
-                                loadingText.style.display = "none";
-                                loadingCircle.style.display = "none";
-                        }
-                        fetchJobMatches(userId).then(() => {
-                                clearInterval(interval);
-                                getProgress = true;
-                        });
-                } else {
-                        progressBarContainer.style.display = "block";
-                        loadingText.textContent = "Finding Your Matches";
-                        loadingText.style.display = "block";
-                        loadingCircle.style.display = "block";
-                        updateProgressBar(progress.progress);
-                }
-        }, 1000);
+            const progress = await fetchProgress(userId); 
+            if (!progress) return;
+    
+            if (progress.status === "completed") {
+                updateProgressBar(100);
+                clearInterval(interval);
+                hideLoadingBar();
+                await fetchJobMatches(userId);
+                getProgress = true;
+            } else if (progress.progress < 100) {
+                updateProgressBar(progress.progress);
+                showLoadingBar();
+            }
+        }, 1000); 
 }
 
 /* Main function that gets and prints the job results */
 async function fetchJobMatches(userId) {
-        resultsContainer.style.display = "none";
+        showLoadingBar();
         if (!reloaded)
                 startProgressCheck(userId);
-        const resultDiv = document.getElementById('response');
-        const profileDiv = document.getElementById('profile');
         try {
                 // Fetch job matches
                 const response = await fetch(`${CONFIG.SERVER_BASE_URL}/getMatches?uid=${userId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Basic ${btoa(CONFIG.API_KEY + ':')}`,
-                }
+                        method: 'GET',
+                        headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Basic ${btoa(CONFIG.API_KEY + ':')}`,
+                        }
                 });
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-                loadingText.textContent = "You have been added to the queue for matching.  Check back in a bit.";
-                loadingText.style.display = "block";
+
                 const data = await response.json();
+                hideLoadingBar(); 
+
+                renderJobMatches(data, userId);
+        } catch (error) {
+                console.error("Error fetching job matches:", error);
+                hideLoadingBar();
+        }
+}
+
+async function renderJobMatches(data, userId) {
+                const profileDiv = document.getElementById('profile');
+                const resultDiv = document.getElementById('response');
+
                 console.log(data.results);
                 const jobResults = JSON.parse(data.results);
-                console.log(jobResults); // Full JSON object
-                loadingText.style.display = "none";
+                console.log(jobResults);
+
                 const profResponse = await fetch(`${CONFIG.SERVER_BASE_URL}/getProfile?uid=${userId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Basic ${btoa(CONFIG.API_KEY + ':')}`,
-                }
+                        method: 'GET',
+                        headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Basic ${btoa(CONFIG.API_KEY + ':')}`,
+                        }
                 });
                 const profData = await profResponse.json();
                 console.log(profData.results);
@@ -446,10 +483,4 @@ async function fetchJobMatches(userId) {
 
                         resultsContainer.style.display = "block";
                 });
-
-        } catch (error) {
-                console.error('Job added to queue.', error);
         }
-}
-
-
